@@ -1,0 +1,25 @@
+import socket
+
+def main():
+    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    server_address = ('chalbroker.cs1122.engineering.nyu.edu', 3543)
+    sock.connect(server_address)
+
+    try:
+        print(sock.recv(1024).decode("utf8"))
+
+        sock.send("rdl394\n".encode())
+        print(sock.recv(1024).decode("utf8"))
+
+        data = sock.recv(1024).decode("utf8")
+        print(data)
+        nums = data.split(" ")
+        N = int(nums[2][0:len(nums[2])-2])
+        c = int(nums[4][0:len(nums[4])-2])
+        d = int(nums[6][0:len(nums[6])-9])
+        plain_txt = hex(pow(c,d,N))
+        print(plain_txt)
+    finally:
+        sock.close()
+
+main()
